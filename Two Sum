@@ -1,0 +1,94 @@
+/*
+    Map<int, int> myMap;
+    Map<int, int>::iterator it = myMap.begin();
+    if(myMap.find(i) != myMap.end())
+    if(myMap.count(i))
+    vector<int> vec;
+    sort(vec.begin(), vec.end());
+    unordered_set s(vec.begin(), vec.end());
+*/
+
+//
+//  main.cpp
+//  Practice
+//
+//  Created by ZhangYanhan on 12/4/16.
+//  Copyright © 2016 ZhangYanhan. All rights reserved.
+//
+
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <vector>
+#include <map>
+#include <unordered_set>
+
+using namespace std;
+
+/*
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        map<int, vector<int>> myMap;
+        vector<int> res;
+        for(int i = 0; i < nums.size(); ++i){
+            int val = nums[i];
+            if(myMap.count(nums[i])){
+                myMap[val].push_back(i);
+            }
+            else{
+                vector<int> v;
+                v.push_back(i);
+                myMap[val] = v;
+            }
+            int sec = target - val;
+            if(myMap.count(sec)){
+                if(sec == val){
+                    if(myMap[val].size() == 2){
+                        res.push_back(myMap[val][0]);
+                        res.push_back(myMap[val][1]);
+                        break;
+                    }
+                }
+                else{
+                    res.push_back(myMap[val][0]);
+                    res.push_back(myMap[sec][0]);
+                    break;
+                }
+            }
+        }
+        sort(res.begin(), res.end());
+        return res;
+    }
+};
+*/
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        map<int, int> myMap;
+        vector<int> res;
+        for(int i = 0; i < nums.size(); i++){
+            int val = target - nums[i];
+            if(myMap.find(val) != myMap.end()){
+                res.push_back(myMap[val]);
+                res.push_back(i);
+                break;
+            }
+            myMap[nums[i]] = i;
+        }
+        return res;
+    }
+};
+int main(){
+    vector<int> vec;
+    vec.push_back(3);
+    vec.push_back(2);
+    vec.push_back(4);
+    Solution s;
+    vector<int> res = s.twoSum(vec, 6);
+    
+    for(vector<int>::iterator it = res.begin(); it != res.end(); ++it){
+        cout<<*it;
+    }
+}
