@@ -31,8 +31,8 @@ public:
                 end = mid;
             }
         }
-        return nums[start];   //  it cannot be end or mid, as you can see there might be 2 cases we end up with while loop
-                              //  for both of these two condions, start is updated, while mid and end is not updated correspondingly 
-                              //  for the if statement
+        return nums[start];   //  it should be mid/start here, instead of mid, as you can see there might be 2 cases that while loop ends up with
+                              //  for both of these two condions, start/mid is updated properly, while mid is not for the if statement
+                              
     }
 };
