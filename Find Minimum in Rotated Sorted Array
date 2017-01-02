@@ -1,0 +1,38 @@
+//Suppose a sorted array is rotated at some pivot unknown to you beforehand.
+
+//(i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
+
+//Find the minimum element.
+
+//You may assume no duplicate exists in the array.
+
+//Subscribe to see which companies asked this question
+
+//   nums is a variable in the stack and it's not a pointer. So it cant be nullpter as it is not pointer or reference.
+//   we only need to see whether it is empty or not
+
+//   the idea of this algorithm is elimination. If nums[mid] > nuns[end], the part from start - mid can be elinminated
+//   otherwise(remember no dumplicate here), mid + 1 -> end can be elminated. 
+
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        if(nums.empty()){
+           return 0; 
+        }
+        int start = 0, end = nums.size() - 1;
+        int mid = 0;
+        while(start < end){
+            int mid = (start + end)/2;
+            if(nums[mid] > nums[end]){
+                start = mid + 1;
+            }
+            else{
+                end = mid;
+            }
+        }
+        return nums[start];   //  it cannot be end or mid, as you can see there might be 2 cases we end up with while loop
+                              //  for both of these two condions, start is updated, while mid and end is not updated correspondingly 
+                              //  for the if statement
+    }
+};
