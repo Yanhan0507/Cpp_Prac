@@ -49,3 +49,33 @@ public:
         return true;
     }
 };
+
+
+// better solution. unordered_map<T, int> map, map[A] will return 0, if not exists. So we both map them to i+1 (avoid 0)
+
+
+class Solution {
+public:
+    bool wordPattern(string pattern, string str) {
+        istringstream iss{str};
+        string word;
+        vector<string> vec;
+        while(getline(iss, word, ' ')){
+            vec.push_back(word);
+        }
+        if(vec.size() != pattern.size()){
+            return false;
+        }
+        unordered_map<char, int> map_c2s;
+        unordered_map<string, int> map_s2c;
+        
+        for(int i = 0; i < pattern.size(); i++){
+            if(map_s2c[vec[i]] != map_c2s[pattern[i]]){
+                return false;
+            }   
+            map_c2s[pattern[i]] = i + 1;
+            map_s2c[vec[i]] = i + 1;
+        }
+        return true;
+    }
+};
