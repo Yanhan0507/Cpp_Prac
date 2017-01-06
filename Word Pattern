@@ -13,7 +13,9 @@ You may assume pattern contains only lowercase letters, and str contains lowerca
 */
 
 //  remember this is a bijection or say one-to-one mapping.
-
+//  cpp_split:
+//  istringstream iss(someString);
+//  while(getline(iss, word, delimit)){}
 
 class Solution {
 public:
