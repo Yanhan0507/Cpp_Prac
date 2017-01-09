@@ -1,0 +1,99 @@
+/*
+Given an integer array nums, return the number of range sums that lie in [lower, upper] inclusive.
+Range sum S(i, j) is defined as the sum of the elements in nums between indices i and j (i ≤ j), inclusive.
+
+Note:
+A naive algorithm of O(n2) is trivial. You MUST do better than that.
+
+Example:
+Given nums = [-2, 5, -1], lower = -2, upper = 2,
+Return 3.
+The three ranges are : [0, 0], [2, 2], [0, 2] and their respective sums are: -2, -1, 2.
+*/
+
+class Solution {
+public:
+    class Node{
+    public:
+        long val;
+        int numberOfLeft;
+        int numberOfRight;
+        int freq;
+        Node* left;
+        Node* right;
+        Node(long x):val(x), numberOfLeft(0), numberOfRight(0), freq(1), 
+        left(nullptr), right(nullptr){
+        }
+    };
+    
+    void insert(Node*& root, long num){
+        if(!root){
+            root = new Node(num);
+            return;
+        }
+        if(root->val == num){
+            (root->freq)++;
+        }
+        else if(num < root->val){
+            (root->numberOfLeft)++;
+            insert(root->left, num);
+        }
+        else{
+            (root->numberOfRight)++;
+            insert(root->right, num);
+        }
+    }
+    
+    int countRangeSum(vector<int>& nums, int lower, int upper) {
+        if(nums.size() == 0){
+            return 0;
+        }
+        vector<long> sum;
+        long cur = 0;
+        int ret = 0;
+        for(int i = 0; i < nums.size(); i++){
+            sum.push_back(cur + nums[i]);
+            cur = sum[i];
+            if(sum[i] <= upper && sum[i] >= lower){
+                ret++;
+            }
+        }
+        Node *root = new Node(sum[0]);
+        for(int i = 1; i < sum.size(); i++){
+            long max = sum[i] - lower;
+            long min = sum[i] - upper;
+            int count = i;
+            Node* cur = root;
+            while(cur){
+                if(max == cur->val){
+                    count -= cur->numberOfRight;
+                    break;
+                }
+                else if(cur->val > max){
+                    count = count - cur->numberOfRight - cur->freq;
+                    cur = cur->left;
+                }
+                else{
+                    cur = cur->right;
+                }
+            }
+            cur = root;
+            while(cur){
+                if(min == cur->val){
+                    count -= cur->numberOfLeft;
+                    break;
+                }
+                else if(cur->val > min){
+                    cur = cur->left;
+                }
+                else{
+                    count = count - cur->freq - cur->numberOfLeft;
+                    cur = cur->right;
+                }
+            }
+            ret += count;
+            insert(root, sum[i]);
+        }
+        return ret;
+    }
+};
